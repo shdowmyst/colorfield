@@ -413,6 +413,34 @@ function endless(x,y) {
      nextGrid[y][x] = new tile(x,y-1,x,y,color,2) //fx,fy,nx,ny,c,state
 }
 
+function sortColors() { // color sorting.
+
+    let ncolors = [0,0,0,0,0,0,0,0,0]; 
+
+    for (let y = 0; y < ySize; y++) {
+        for (let x = 0; x < xSize; x++) {
+
+        ncolors[nextGrid[y][x].color]++ // calculate the amount of colors
+       }}
+
+    let z = 1;
+
+    for (let y = 0; y < ySize; y++) {
+        for (let x = 0; x < xSize; x++) {
+
+            if (ncolors[z] > 0) {
+
+                nextGrid[y][x].color = z;
+                ncolors[z]--;
+            } else {
+                nextGrid[y][x].color = z;
+                z++                
+            }}}
+
+nextMatrix();
+console.log("sorted!");
+}
+
 function highScore(x) {
 
   let score = Math.pow((x-1),2) * makeGrid.colors
