@@ -17,14 +17,13 @@
   
  //menu stuff
 
-  var gameoverBox;
-  var settingsBox;
-  var helpBox;
-  var helpBoxNext;
+  var gameoverBox, settingsBox, helpBox, helpBoxNext;
+  var gameoverText, difficultyText, colorText;
 
-  var gameoverText;  
-  var difficultyText;
-  var colorText;
+//fps limiter
+
+  var frameCount = 0;
+  var fps, fpsInterval, startTime, nowTime, thenTime, elapsedTime;
 
   setMenu.area = {state:0};
 
@@ -394,16 +393,14 @@ function renderTiles() {
         case 3: helpBox.playBackward(); 
                 break;
         }
-    
       
     //  clickBoxHelper()
 
       clickConfirm();
 
      writeScore();
-
-
-  requestAnimationFrame(renderTiles) 
+     
+//  requestAnimationFrame(renderTiles) 
 }
 
 function endless(x,y) {
@@ -867,6 +864,27 @@ function resetTiles() {
      nextMatrix();
      }
 }
+
+//Fps limiter function liberated from Stackoverflow
+function startLimiter(fps) {
+    fpsInterval = 1000 / fps;
+    thenTime = window.performance.now();
+    startTime = thenTime;
+    playTile();
+}
+
+//Actually calls the render fuction
+function playTile(newtime) {
+    requestAnimationFrame(playTile);
+    nowTime = newtime;
+    elapsedTime = nowTime - thenTime;
+    if (elapsedTime > fpsInterval) { 
+        thenTime = nowTime - (elapsedTime % fpsInterval);
+        //call render function
+        renderTiles();
+    }
+}
+
 /*
 window.onresize = function() {
     clearTimeout(resizeId);
@@ -878,10 +896,10 @@ function doneResizing(){
 }
 */
 
-
 setCanvasSize();
 setMenu();
 checkSession();
 makeGrid();
 nextMatrix();
-renderTiles();
+startLimiter(60);
+//renderTiles();
