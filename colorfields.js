@@ -895,7 +895,7 @@ function doneResizing(){
   location.reload();
 }
 */
-
+sessionStorage.clear();
 setCanvasSize();
 setMenu();
 checkSession();
